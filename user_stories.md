@@ -1,8 +1,5 @@
 // user stories //
 
-// As a developer, I want to implement a constructor function, so that I can reuse code and eliminate much of the duplication in my JavaScript
-As a user, I want cookie sales data represented in tables rather than lists
-
 Developer: As a developer, I want to create a site thats stores, calculates, and visually displays the data of user selections. The selections will be made from a choice of three images each round. Once image is selected, three new images will be displayed that do not show any image in the previous round nor the image that was selected in the previous round. Once the user has made 25 choices (or clicks) that data will be represented to them.
 
 Marketer: As a markerting researcher, I want to see what users would most like to buy from a new catalogue on public transit called BusMall. I will give the developer all of the product images that I want displayed to the user to make choices from. I want the user to have a selection of three images and to choose which they'd prefer to purchase from BusMall. After the user has made their choices, I want the user to see a wrap-up of their choices displayed to them. 
