@@ -49,16 +49,22 @@ function randomImage() {
   img3.alt= ProductImage.allProductImages[randomIndex[2]].imageName;
   img3.title= ProductImage.allProductImages[randomIndex[2]].imageName;
 }
-randomImage();
 
-img1.addEventListener('click', randomImage);
-img2.addEventListener('click', randomImage);
-img3.addEventListener('click', randomImage);
+function noRepeatImages() {
+  var doNotRepeatImages = [];
+  while (doNotRepeatImages[0] === doNotRepeatImages[1] || doNotRepeatImages[1] === doNotRepeatImages[2] || doNotRepeatImages[2] === doNotRepeatImages[0]) {
+    doNotRepeatImages = [];
+    for (i = 0; i < 3; i++) {
+      var randomPick = Math.floor(Math.random() * ProductImage.allProductImages.length);
+      doNotRepeatImages.push(randomPick);
+    }
+  }
+  noRepeatImages();
 
-//write a function that will generate a random number between 0 and 19 -- needs to give 3 different numbers between
+  //write a function that will generate a random number between 0 and 19 -- needs to give 3 different numbers between
+  randomImage();
 
-
-// randomImage(document.getElementById('img-1'))[0];
-// for (i = 0; i < ProductImage.allProductImages.length; i++) {
-//   ProductImage.allProductImages.splice(Math.floor(Math.random() * ProductImage.allProductImages.length), 1)[0];
-// }
+  img1.addEventListener('click', randomImage);
+  img2.addEventListener('click', randomImage);
+  img3.addEventListener('click', randomImage);
+}
