@@ -1,23 +1,22 @@
-//data: global vars for DOM
-//      total clicks <25
-//      array
-
 'use strict';
 
-//array to store the ojbects
 var productNames = ['banana', 'boots', 'breakfast', 'bubblegum', 'chair', 'dog-duck', 'dragon', 'greenmonster', 'pen', 'pet-sweep', 'r2d2bag', 'scissors', 'shark', 'sweep', 'tauntaun', 'toiletstand', 'unicorn', 'usb', 'water-can', 'wine-glass'];
 
 ProductImage.allProductImages = [];
-var img1 = document.getElementById('img-1');
-var img2 = document.getElementById('img-2');
-var img3 = document.getElementById('img-3');
+ProductImage.viewed = [];
+ProductImage.totalClicks = 0;
 
-//make an object
+//DOM access
+ProductImage.container = document.getElementById('image_container');
+ProductImage.pics = [document.getElementById('img-1'), document.getElementById('img-2'), document.getElementById('img-3')];
+ProductImage.list = document.getElementById('productlist');
+
+//make an object constructor
 function ProductImage(imageName) {
   this.imageName = imageName;
   this.filepath = 'img/' + imageName + '.jpg';
-  this.pickClickCount = 0;
-  this.numPickClick = 0;
+  this.votes = 0;
+  this.views = 0;
   ProductImage.allProductImages.push(this);
 }
 
@@ -29,42 +28,56 @@ for (var i = 0; i < productNames.length; i++) {
 
 
 //write a function to randomly display images
-function randomImage() {
-  var randomIndex = [];
-  for (i = 0; i < 3; i++) {
-    var randomPick = Math.floor(Math.random() * ProductImage.allProductImages.length);
-    randomIndex.push(randomPick);
-  }
-  console.log(randomIndex);
-
-  img1.src= ProductImage.allProductImages[randomIndex[0]].filepath;
-  img1.alt= ProductImage.allProductImages[randomIndex[0]].imageName;
-  img1.title= ProductImage.allProductImages[randomIndex[0]].imageName;
-
-  img2.src= ProductImage.allProductImages[randomIndex[1]].filepath;
-  img2.alt= ProductImage.allProductImages[randomIndex[1]].imageName;
-  img2.title= ProductImage.allProductImages[randomIndex[1]].imageName;
-
-  img3.src= ProductImage.allProductImages[randomIndex[2]].filepath;
-  img3.alt= ProductImage.allProductImages[randomIndex[2]].imageName;
-  img3.title= ProductImage.allProductImages[randomIndex[2]].imageName;
+function makeRandom() {
+  return Math.floor(Math.random() * productNames.length);
 }
 
-function noRepeatImages() {
-  var doNotRepeatImages = [];
-  while (doNotRepeatImages[0] === doNotRepeatImages[1] || doNotRepeatImages[1] === doNotRepeatImages[2] || doNotRepeatImages[2] === doNotRepeatImages[0]) {
-    doNotRepeatImages = [];
-    for (i = 0; i < 3; i++) {
-      var randomPick = Math.floor(Math.random() * ProductImage.allProductImages.length);
-      doNotRepeatImages.push(randomPick);
+function randomImages() {
+  while (ProductImage.viewed.length < 6) {
+    var rando = makeRandom();
+    while (!ProductImage.viewed.includes(rando)) {
+      ProductImage.viewed.push(rando);
     }
   }
-  noRepeatImages();
 
-  //write a function that will generate a random number between 0 and 19 -- needs to give 3 different numbers between
-  randomImage();
-
-  img1.addEventListener('click', randomImage);
-  img2.addEventListener('click', randomImage);
-  img3.addEventListener('click', randomImage);
+  for (var i = 0; i < 3; i++) {
+    var temp = ProductImage.viewed.shift();
+    ProductImage.pics[i].src = ProductImage.allProductImages[temp].filepath;
+    ProductImage.pics[i].alt = ProductImage.allProductImages[temp].imageName;
+    ProductImage.pics[i].title = ProductImage.allProductImages[temp].imageName;
+    ProductImage.allProductImages[temp].views += 1;
+  }
 }
+
+function handleClick(event) {
+  if (event.target === ProductImage.container) {
+    return alert('Please click on an image.');
+  }
+
+  ProductImage.totalClicks += 1;
+  if (ProductImage.totalClicks > 24) {
+    ProductImage.container.removeEventListener('click', handleClick);
+    ProductImage.container.style.display = 'none';
+    showList();
+  }
+
+  for (var i = 0; i < ProductImage.allProductImages.length; i++) {
+    if (event.target.alt === ProductImage.allProductImages[i].imageName) {
+      ProductImage.allProductImages[i].votes += 1;
+      console.log(event.target.alt + ' has ' + ProductImage.allProductImages[i].votes + ' votes in ' + ProductImage.allProductImages[i].views + ' views ');
+    }
+  }
+  randomImages();
+}
+
+function showList() {
+  for (var i = 0; i < ProductImage.allProductImages.length; i++) {
+    var liEl = document.createElement('li');
+    liEl.textContent = ProductImage.allProductImages[i].imageName + ' has ' + ProductImage.allProductImages[i].votes + ' votes in ' + ProductImage.allProductImages[i].views + ' views.';
+
+    ProductImage.list.appendChild(liEl);
+  }
+}
+
+randomImages();
+ProductImage.container.addEventListener('click', handleClick);
