@@ -1,0 +1,21 @@
+* {
+  background-color: darkgreen;
+  color: darkgoldenrod;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body h1 {
+  text-align: center;
+}
+
+body p {
+  text-align: center;
+}
+
+body section {
+  text-align: center;
+}
+
+body img {
+  width: 200px;
+}
