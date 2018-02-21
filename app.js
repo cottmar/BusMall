@@ -70,15 +70,6 @@ function handleClick(event) {
   randomImages();
 }
 
-function showList() {
-  for (var i = 0; i < ProductImage.allProductImages.length; i++) {
-    var liEl = document.createElement('li');
-    liEl.textContent = ProductImage.allProductImages[i].imageName + ' has ' + ProductImage.allProductImages[i].votes + ' votes in ' + ProductImage.allProductImages[i].views + ' views.';
-
-    ProductImage.list.appendChild(liEl);
-  }
-}
-
 randomImages();
 ProductImage.container.addEventListener('click', handleClick);
 
