@@ -1,7 +1,8 @@
 * {
-  background-color: darkgreen;
+  background-color: #051905;
   color: darkgoldenrod;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Questrial', sans-serif;
+  font-size: 100%;
 }
 
 body h1 {
@@ -17,5 +18,6 @@ body section {
 }
 
 body img {
-  width: 200px;
+  width: auto;
+  height: 200px;
 }
