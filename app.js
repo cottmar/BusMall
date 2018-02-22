@@ -5,6 +5,7 @@ ProductImage.allProductImages = [];
 ProductImage.viewed = [];
 ProductImage.totalClicks = 0;
 
+
 //DOM access
 ProductImage.container = document.getElementById('image_container');
 ProductImage.pics = [document.getElementById('img-1'), document.getElementById('img-2'), document.getElementById('img-3')];
@@ -20,11 +21,17 @@ function ProductImage(imageName) {
 }
 
 //make new Image instances //how do we make a new object out of a constructor function
-for (var i = 0; i < productNames.length; i++) {
-  new ProductImage(productNames[i]);
+
+if (localStorage.saveAllProdImages) {
+  console.log('localStorage');
+  ProductImage.allProductImages =localStorage.getItem('saveAllProdImages');
+  ProductImage.allProductImages = JSON.parse(ProductImage.allProductImages);
+} else {
+  console.log('scratch');
+  for (var i = 0; i < productNames.length; i++) {
+    new ProductImage(productNames[i]);
+  }
 }
-
-
 
 //write a function to randomly display images
 function makeRandom() {
@@ -67,7 +74,11 @@ function handleClick(event) {
       console.log(event.target.alt + ' has ' + ProductImage.allProductImages[i].votes + ' votes in ' + ProductImage.allProductImages[i].views + ' views ');
     }
   }
+  var stringifyTotalClicks = JSON.stringify(ProductImage.allProductImages);
+  localStorage.setItem('saveAllProdImages', stringifyTotalClicks);
+
   randomImages();
+
 }
 
 randomImages();
@@ -151,3 +162,12 @@ function makeChart () {
   });
 }
 makeChart();
+
+// localStorage
+
+//make global variables//
+
+
+//what to store?
+//when to store?
+//when to retrieve?
